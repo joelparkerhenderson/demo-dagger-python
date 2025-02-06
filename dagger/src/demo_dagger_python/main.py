@@ -33,4 +33,12 @@ class DemoDaggerPython:
             .with_exec(["apt-get", "update"])
             .with_exec(["pip", "install", "--upgrade", "pip"])
         )
-   
+  
+    @function
+    async def hello(self, source: dagger.Directory) -> str:
+        """Return the result of running unit tests"""
+        return await (
+            self.build_env(source)
+            .with_exec(["python", "src/demo_dagger_python/demo.py"])
+            .stdout()
+        )

@@ -199,7 +199,6 @@ python -m unittest discover
 ```
 
 
-
 ## Daggerize the project
 
 This section has steps:
@@ -259,4 +258,49 @@ ls
 
 ```stdout
 LICENSE  README.md  dagger  dagger.json  src  tests
+```
+
+Test:
+
+```sh
+python -m unittest discover
+```
+
+```stdout
+Ran 1 test in 0.000s
+OK
+```
+
+To exit:
+
+```sh
+exit
+```
+
+
+### Run the demo
+
+Edit the file `dagger/src/hello_dagger/main.py` and add your own function to run the demo:
+
+```sh
+@function
+async def hello(self, source: dagger.Directory) -> str:
+    """Return the result of running unit tests"""
+    return await (
+        self.build_env(source)
+        .with_exec(["python", "src/demo_dagger_python/demo.py"])
+        .stdout()
+    )
+```
+
+Run:
+
+```sh
+dagger call hello --source=.
+```
+
+Output includes the function and argument:
+
+```stdout
+Hello World!
 ```
