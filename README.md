@@ -212,7 +212,7 @@ This section has steps:
 
 Edit the file `dagger/src/hello_dagger/main.py` and add your own function to build an environment:
 
-```py
+```python
 @function
 def build_env(self, source: dagger.Directory) -> dagger.Container:
     """Build a ready-to-use development environment"""
@@ -282,10 +282,10 @@ exit
 
 Edit the file `dagger/src/hello_dagger/main.py` and add your own function to run the demo:
 
-```sh
+```python
 @function
 async def hello(self, source: dagger.Directory) -> str:
-    """Return the result of running unit tests"""
+    """Run the demo that prints Hello World!"""
     return await (
         self.build_env(source)
         .with_exec(["python", "src/demo_dagger_python/demo.py"])
@@ -303,4 +303,32 @@ Output includes the function and argument:
 
 ```stdout
 Hello World!
+```
+
+### Run the test
+
+Edit the file `dagger/src/hello_dagger/main.py` and add your own function to run the demo:
+
+```python
+@function
+async def test(self, source: dagger.Directory) -> str:
+    """Return the result of running unit tests"""
+    return await (
+        self.build_env(source)
+        .with_exec(["python", "-m", "unittest", "discover"])
+        .stderr()
+    )
+```
+
+Run:
+
+```sh
+dagger call test --source=.
+```
+
+Output includes the test results:
+
+```stdout
+Ran 1 test in 0.000s
+OK
 ```

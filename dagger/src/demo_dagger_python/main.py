@@ -36,9 +36,18 @@ class DemoDaggerPython:
   
     @function
     async def hello(self, source: dagger.Directory) -> str:
-        """Return the result of running unit tests"""
+        """Run the demo that prints Hello World!"""
         return await (
             self.build_env(source)
             .with_exec(["python", "src/demo_dagger_python/demo.py"])
             .stdout()
+        )
+
+    @function
+    async def test(self, source: dagger.Directory) -> str:
+        """Return the result of running unit tests"""
+        return await (
+            self.build_env(source)
+            .with_exec(["python", "-m", "unittest", "discover"])
+            .stderr()
         )
