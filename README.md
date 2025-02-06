@@ -197,3 +197,66 @@ Verify:
 ```sh
 python -m unittest discover
 ```
+
+
+
+## Daggerize the project
+
+This section has steps:
+
+* Build an environment
+
+* Try a dagger shell
+
+
+### Build an environment
+
+Edit the file `dagger/src/hello_dagger/main.py` and add your own function to build an environment:
+
+```py
+@function
+def build_env(self, source: dagger.Directory) -> dagger.Container:
+    """Build a ready-to-use development environment"""
+    python_cache = dag.cache_volume("python_cache")
+    return (
+        dag.container()
+        .from_("python:3.13-slim")
+        .with_directory("/src", source)
+        .with_workdir("/src")
+        .with_exec(["apt-get", "update"])
+        .with_exec(["pip", "install", "--upgrade", "pip"])
+    )
+```
+
+Run:
+
+```sh
+dagger call build-env --source=.
+```
+
+You should see the build environment function running.
+
+
+### Try a dagger shell
+
+Try entering the newly built environment:
+
+```sh
+dagger call build-env --source=. terminal --cmd=bash
+```
+
+You should see the bash shell prompt such as:
+
+```sh
+root:/src#
+```
+
+You should be able to use shell commands such as:
+
+```sh
+ls
+```
+
+```stdout
+LICENSE  README.md  dagger  dagger.json  src  tests
+```
