@@ -129,3 +129,71 @@ Output includes the pattern matches:
 ./src/demo_dagger_python/demo.py:     print ("Hello World!")
 ./src/demo_dagger_python/__pycache__/demo.cpython-313.pyc: Hello World!
 ```
+
+
+## Create a demo python project
+
+This section has steps:
+
+* Create a python source file
+
+* Create a python test file
+
+
+## Create a python source file
+
+Create a demo python package layout:
+
+```sh
+mkdir -p {src/demo_dagger_python,tests}
+touch {src/demo_dagger_python,tests}/__init__.py
+```
+
+Create a demo python function in file `src/demo_dagger_python/demo.py`:
+
+```python
+#!/usr/bin/env python
+
+def add(a, b):
+    return a + b
+
+def main():
+     print ("Hello World!")
+
+if __name__ == '__main__':
+    main()
+```
+
+Run:
+
+```sh
+python src/demo_dagger_python/demo.py
+```
+
+```stdout
+Hello World!
+```
+
+
+###  Create a python test file
+
+Create a trivial python test in file `tests/test_demo.py`:
+
+```py
+import unittest
+from src.demo_dagger_python import demo
+
+class TestDemo(unittest.TestCase):
+
+    def test_add(self):
+        self.assertEqual(demo.add(1, 2), 3)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+Verify:
+
+```sh
+python -m unittest discover
+```
