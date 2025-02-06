@@ -2,6 +2,12 @@
 
 Demonstration of Dagger.io Python SDK.
 
+Also read about:
+
+* [Dagger Cloud v3](https://dagger.io/blog/dagger-cloud-v3)
+
+* [Why is Building Pipelines Different from Software Development?](https://itnext.io/why-is-building-pipelines-different-from-software-development-13ebd479edc4)
+
 
 ## Setup
 
